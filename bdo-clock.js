@@ -6,21 +6,22 @@ class BDOClock {
    * @param {moment.MomentInput} input
    */
   constructor(input){
-    const in_game_daytime_hours = { start: 7, end: 22 };
+    const in_game_daytime_in_real_minutes = 200;
+    const in_game_daytime_period = { start: 7, end: 22 };
+
+    const in_game_daytime_hours = in_game_daytime_period.end - in_game_daytime_period.start;
+    const in_game_nighttime_hours = 24 - in_game_daytime_hours;
     const in_game_full_day_in_real_seconds = 4 * 60 * 60; // a full day in game equals 4 hours in real life.
-    const in_game_daytime_minute_in_real_seconds = 200 * 60 / 15 / 60; // one minute in game seconds in day time (7am - 10pm) equals 200 minutes in real life or 13.333333 seconds in real life.
-    const in_game_nighttime_minute_in_real_seconds = (in_game_full_day_in_real_seconds - 15 * 60 * in_game_daytime_minute_in_real_seconds) / 9 / 60; // one minute in game seconds in day time (7am - 10pm) equals to 4.444444 seconds in real life.
-    const in_game_day_time_in_real_seconds =
-      (in_game_daytime_hours.end - in_game_daytime_hours.start) *
-      60 *
-      in_game_daytime_minute_in_real_seconds; // the amount of seconds in real life for whole day time in game.
-    const in_game_day_start_in_in_game_seconds = in_game_daytime_hours.start * 60;
+    const in_game_daytime_minute_in_real_seconds = in_game_daytime_in_real_minutes * 60 / in_game_daytime_hours / 60; // one minute in game seconds in day time (7am - 10pm) equals 200 minutes in real life or 13.333333 seconds in real life.
+    const in_game_nighttime_minute_in_real_seconds = (in_game_full_day_in_real_seconds - in_game_daytime_hours * 60 * in_game_daytime_minute_in_real_seconds) / in_game_nighttime_hours / 60; // one minute in game seconds in day time (7am - 10pm) equals to 4.444444 seconds in real life.
+    const in_game_day_time_in_real_seconds = in_game_daytime_in_real_minutes * 60; // the amount of seconds in real life for whole day time in game.
+    const in_game_day_start_in_in_game_seconds = in_game_daytime_period.start * 60;
 
     let startTime = moment(input)
       .utc()
       .startOf('day')
       .hours(20)
-      .minute(20); // Every day at UTC time 20:20.01, game starts a new day time at 7 a.m. in game
+      .minute(20); // Every day at UTC time 20:20, game starts a new day time at 7 a.m. in game
     const currentTime = moment(input);
     if (startTime > currentTime) {
       startTime.subtract(1, 'day'); //if moment gets the upcoming reset time, we turn clock back 1 day to get last reset time.
