@@ -3,7 +3,7 @@ const moment = require('moment');
 class BDOClock {
   /**
    *
-   * @param {moment.MomentInput} input
+   * @param {moment.MomentInput} [input]
    */
   constructor(input){
     const in_game_daytime_in_real_minutes = 200;
@@ -107,7 +107,7 @@ class BDOClock {
 
 /**
  *
- * @param {moment.MomentInput} input
+ * @param {moment.MomentInput} [input]
  * @returns {BDOClock}
  */
 module.exports = (input) => {
