@@ -1,14 +1,23 @@
 {
   "name": "bdo-clock",
   "version": "1.0.0",
-  "description": "Convert real time to Black Desert Online in game clock.",
-  "main": "index.js",
+  "description": "A JavaScript Library to convert real time into Black Desert Online in game clock.",
+  "main": "dist/bdo-clock.js",
   "license": "MIT",
-  "scripts": {
-    "build": "rollup -c"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markni/bdo-clock.git"
   },
-  "dependencies": {},
+  "scripts": {
+    "build": "rollup index.js --o dist/bdo-clock.js -f umd --name bdoClock",
+    "lint": "eslint *.js --fix",
+    "test": "node index.test.js"
+  },
+  "dependencies": {
+    "moment": "^2.22.2"
+  },
   "devDependencies": {
+    "eslint": "^4.19.1",
     "rollup": "^0.60.1"
   }
 }
