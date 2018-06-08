@@ -8,9 +8,6 @@
     "clock",
     "time"
   ],
-  "files": [
-    "./dist/bdo-clock.js"
-  ],
   "typing": "./bdo-clock.d.ts",
   "license": "MIT",
   "repository": {
