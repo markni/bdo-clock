@@ -1,6 +1,6 @@
 const assert = require('assert');
 const moment = require('moment');
-const bdoClock = require('./index');
+const bdoClock = require('./bdo-clock');
 const b1 = bdoClock('2018-06-08T20:20Z'); //7am in game
 const b2 = bdoClock('2018-06-08T07:53Z');
 const b3 = bdoClock().toString();

@@ -1,7 +1,11 @@
 const moment = require('moment');
 
 class BDOClock {
-  constructor(options){
+  /**
+   *
+   * @param {moment.MomentInput} input
+   */
+  constructor(input){
     const in_game_daytime_hours = { start: 7, end: 22 };
     const in_game_full_day_in_real_seconds = 4 * 60 * 60; // a full day in game equals 4 hours in real life.
     const in_game_daytime_minute_in_real_seconds = 200 * 60 / 15 / 60; // one minute in game seconds in day time (7am - 10pm) equals 200 minutes in real life or 13.333333 seconds in real life.
@@ -12,12 +16,12 @@ class BDOClock {
       in_game_daytime_minute_in_real_seconds; // the amount of seconds in real life for whole day time in game.
     const in_game_day_start_in_in_game_seconds = in_game_daytime_hours.start * 60;
 
-    let startTime = moment(options)
+    let startTime = moment(input)
       .utc()
       .startOf('day')
       .hours(20)
       .minute(20); // Every day at UTC time 20:20.01, game starts a new day time at 7 a.m. in game
-    const currentTime = moment(options);
+    const currentTime = moment(input);
     if (startTime > currentTime) {
       startTime.subtract(1, 'day'); //if moment gets the upcoming reset time, we turn clock back 1 day to get last reset time.
     }
@@ -25,7 +29,6 @@ class BDOClock {
       moment.duration(currentTime.diff(startTime)).asSeconds() %
       in_game_full_day_in_real_seconds; // use the reminder to find out how much in real life time has passed since reset
     let current_in_game_minutes = in_game_day_start_in_in_game_seconds; // Init as 7 hours, since in game already 7 a.m. when reset start
-    let upcoming = 'night';
     let real_seconds_util_next_shift = 0; // time in second until next day/night change;
 
     if (timePassed < in_game_day_time_in_real_seconds) {
@@ -34,11 +37,10 @@ class BDOClock {
         timePassed / in_game_daytime_minute_in_real_seconds;
       real_seconds_util_next_shift =
         in_game_day_time_in_real_seconds - timePassed;
-      this.isDaytime = true;
+      this._isDaytime = true;
     } else {
       // ir we already in night time, first add full daytime in seconds, then add the rest in night time rate
-      upcoming = 'day';
-      this.isDaytime = false;
+      this._isDaytime = false;
       real_seconds_util_next_shift =
         in_game_full_day_in_real_seconds - timePassed;
       current_in_game_minutes +=
@@ -51,10 +53,38 @@ class BDOClock {
       current_in_game_minutes,
       'minute'
     );
-    this.timeElapsed = current_in_game_duration;
-    this.nextDayNightChange = currentTime.clone().add(real_seconds_util_next_shift, 'seconds');
+    this._timeElapsed = current_in_game_duration;
+    this._nextDayNightChange = currentTime.clone().add(real_seconds_util_next_shift, 'seconds');
   }
 
+  /**
+   *
+   * @returns {boolean}
+   */
+  get isDaytime() {
+    return this._isDaytime;
+  }
+
+  /**
+   *
+   * @returns {moment.Duration}
+   */
+  get timeElapsed() {
+    return this._timeElapsed;
+  }
+
+  /**
+   *
+   * @returns {moment.Moment}
+   */
+  get nextDayNightChange() {
+    return this._nextDayNightChange;
+  }
+
+  /**
+   *
+   * @returns {string}
+   */
   toString() {
     let current_in_game_hours = this.timeElapsed.hours();
     let current_in_game_minutes = this.timeElapsed.minutes();
@@ -74,7 +104,11 @@ class BDOClock {
   }
 }
 
-
-module.exports = (options) => {
-  return new BDOClock(options);
+/**
+ *
+ * @param {moment.MomentInput} input
+ * @returns {BDOClock}
+ */
+module.exports = (input) => {
+  return new BDOClock(input);
 };
