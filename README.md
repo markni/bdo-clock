@@ -27,12 +27,12 @@ bdoClock('2018-06-08T20:20Z').toString(); // "7:00 a.m."
 bdoClock('2018-06-08T20:20Z').isDaytime; // true
 ```
 
-## Find next time day change to night or vice versa
+### Find next time day change to night or vice versa
 ```javascript
 bdoClock('2018-06-08T20:20Z').nextDayNightChange.toISOString(); // "2018-06-08T23:40:00.000Z"
 ```
 
-## Find out time elapsed since 0 a.m. in game
+### Find out time elapsed since 0 a.m. in game
 See [moment.Durations](https://momentjs.com/docs/#/durations/) on how to use the returned duration object
 ```javascript
 bdoClock('2018-06-08T20:20Z').timeElapsed.hours(); // 7
