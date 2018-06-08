@@ -13,20 +13,31 @@ npm install bdo-clock --save
 const bdoClock = require('bdo-clock');
 
 console.log(`Current in game time is ${bdoClock()}`);
-
-console.log(`If current UTC date is 2018-06-08T20:20Z, in game time is ${bdoClock('2018-06-08T20:20Z')}`); // 7:00 a.m.
-
-console.log(`If current UTC date is 2018-06-08T20:20Z, in game time is ${bdoClock('2018-06-08T20:20Z').isDaytime ? 'day time' : 'night time'}`); // day time
-
-// display next time day change to night or vice versa
-console.log(`If current UTC date is 2018-06-08T20:20Z, in game time is ${bdoClock('2018-06-08T20:20Z').nextDayNightChange.toLocalString()}`);
-
-// .timeElapsed returns a moment duration object since 0am in game, useful to display clock in your custom format
-console.log(`If current UTC date is 2018-06-08T20:20Z, in game time is ${bdoClock('2018-06-08T20:20Z').timeElapsed.hours()}`);
-
 ```
 
+### Custom Date
 This library uses [moment.js](https://github.com/moment/moment), so it takes any parameter take `moment()` can take.
 
+```javascript
+bdoClock('2018-06-08T20:20Z').toString(); // "7:00 a.m."
+```
+
+### Find out Day/Night Time
+```javascript
+bdoClock('2018-06-08T20:20Z').isDaytime; // true
+```
+
+## Find next time day change to night or vice versa
+```javascript
+bdoClock('2018-06-08T20:20Z').nextDayNightChange.toISOString(); // "2018-06-08T23:40:00.000Z"
+```
+
+## Find out time elapsed since 0 a.m. in game
+See [moment.Durations](https://momentjs.com/docs/#/durations/) on how to use the returned duration object
+```javascript
+bdoClock('2018-06-08T20:20Z').timeElapsed.hours(); // 7
+```
+
+
 ## License
-bdo-clock is freely distributable under the terms of the MIT license.
+**bdo-clock** is freely distributable under the terms of the MIT license.
