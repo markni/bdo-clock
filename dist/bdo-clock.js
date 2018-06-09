@@ -104,10 +104,7 @@
       }
       if (current_in_game_hours === 0) current_in_game_hours = 12;
 
-      return `${current_in_game_hours}:${String(current_in_game_minutes).padStart(
-      2,
-      '0'
-    )} ${current_in_game_period}`;
+      return `${current_in_game_hours}:${String(current_in_game_minutes).length < 2 ? '0' + String(current_in_game_minutes) : String(current_in_game_minutes)} ${current_in_game_period}`;
     }
   }
 

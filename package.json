@@ -1,6 +1,6 @@
 {
   "name": "bdo-clock",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A javaScript library to convert real time into Black Desert Online in game time.",
   "main": "./dist/bdo-clock.js",
   "keywords": [
@@ -25,5 +25,6 @@
   "devDependencies": {
     "eslint": "^4.19.1",
     "rollup": "^0.60.1"
-  }
+  },
+  "engines" : { "node" : ">=8" }
 }
